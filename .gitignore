@@ -3,3 +3,4 @@ data/20*
 .idea
 chromedriver*
 chromedriver
+*.pyc
