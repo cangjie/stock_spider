@@ -6,8 +6,9 @@ import json
 import time
 import os
 
-chrome_driver_path = '/Users/cangjie/Downloads/chromedriver'
+
 util.path_spiter = '/'
+chrome_driver_path = os.getcwd() + util.path_spiter + 'chromedriver'
 data_path = os.getcwd() + util.path_spiter + 'data'
 thread_count = 8
 gid_queue = []
