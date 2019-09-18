@@ -17,36 +17,34 @@ gid_queue = []
 
 def snap_data(driver):
     date_str = time.strftime('%Y-%m-%d', time.localtime())
-    while True:
-        if gid_queue.__len__() > 0:
-            try:
-                gid = gid_queue.pop()
-                driver.get('http://vip.stock.finance.sina.com.cn/quotes_service/view/vMS_tradedetail.php?symbol=' + gid)
-                datatbl = driver.find_element_by_id('datatbl')
-                tbody = datatbl.find_element_by_tag_name('tbody')
-                lines = tbody.find_elements_by_tag_name('tr')
-                data_arr = []
-                for line in lines:
-                    data_line = []
-                    cells = line.text.split(' ')
-                    time_str = cells[0]
-                    price_str = cells[1]
-                    volume_str = cells[5].split('\n')[0].replace(',', '')
-                    type_str = cells[5].split('\n')[1]
-                    direction_str = '-'
-                    if type_str.strip() == '买盘':
-                        direction_str = 'U'
-                    if type_str.strip() == '卖盘':
-                        direction_str = 'D'
-                    data_time = time.strptime(date_str + ' ' + time_str, '%Y-%m-%d %H:%M:%S')
-                    data_line = [data_time, float(price_str), int(volume_str) * 100, direction_str]
-                    data_arr.append(data_line)
-                util.save_data_batch(gid, data_arr, data_path)
-            except:
-                continue
-            print(gid_queue.__len__())
-        else:
-            time.sleep(60)
+    while gid_queue.__len__() > 0:
+        gid = gid_queue.pop()
+        try:
+            driver.get('http://vip.stock.finance.sina.com.cn/quotes_service/view/vMS_tradedetail.php?symbol=' + gid)
+            datatbl = driver.find_element_by_id('datatbl')
+            tbody = datatbl.find_element_by_tag_name('tbody')
+            lines = tbody.find_elements_by_tag_name('tr')
+            data_arr = []
+            for line in lines:
+                data_line = []
+                cells = line.text.split(' ')
+                time_str = cells[0]
+                price_str = cells[1]
+                volume_str = cells[5].split('\n')[0].replace(',', '')
+                type_str = cells[5].split('\n')[1]
+                direction_str = '-'
+                if type_str.strip() == '买盘':
+                    direction_str = 'U'
+                if type_str.strip() == '卖盘':
+                    direction_str = 'D'
+                data_time = time.strptime(date_str + ' ' + time_str, '%Y-%m-%d %H:%M:%S')
+                data_line = [data_time, float(price_str), int(volume_str) * 100, direction_str]
+                data_arr.append(data_line)
+            util.save_data_batch(gid, data_arr, data_path)
+        except:
+            print("Error in " + gid)
+        print(gid_queue.__len__())
+
 
 
 
