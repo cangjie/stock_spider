@@ -10,7 +10,7 @@ import os
 util.path_spiter = '/'
 chrome_driver_path = os.getcwd() + util.path_spiter + 'chromedriver'
 data_path = os.getcwd() + util.path_spiter + 'data'
-thread_count = 8
+thread_count = 6
 gid_queue = []
 
 
