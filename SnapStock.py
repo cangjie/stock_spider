@@ -10,7 +10,7 @@ import os
 util.path_spiter = '/'
 chrome_driver_path = os.getcwd() + util.path_spiter + 'chromedriver'
 data_path = os.getcwd() + util.path_spiter + 'data'
-thread_count = 8
+thread_count = 4
 gid_queue = []
 
 
@@ -51,7 +51,7 @@ def snap_data(driver):
 
 
 def get_all_gids():
-    all_gid_json = json.loads(requests.get('http://52.80.17.211:8848/api/get_all_gids.aspx').text)
+    all_gid_json = json.loads(requests.get('http://52.80.17.211:8848/api/get_limit_gids.aspx').text)
     for gid in all_gid_json['gids']:
         gid_queue.append(gid)
 
